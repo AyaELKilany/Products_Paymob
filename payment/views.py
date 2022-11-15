@@ -84,7 +84,7 @@ def callback(request):
         Total Price : {:s}
         created at : {:s}
         transaction status : {:s}
-        """.format(client_name,client_name,str(total_price),created,transaction_status) + '\n' + '\n'.join('{}: {}'.format(*k) for k in enumerate(products))
+        """.format(client_name,client_name,str(total_price),created,transaction_status) + '\n' + '\t\tProducts' + '\n\t\t'.join('{}'.format(*k) for k in enumerate(products))
         print(message)
         
         HandleThreads('Payment Notification', message , ['ayaelkilany735@gmail.com']).start()
