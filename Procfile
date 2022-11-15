@@ -1,2 +1,2 @@
 
-web: gunicorn project.wsgi --log-file -
+web:gunicorn product_paymob.wsgi --log-file -
