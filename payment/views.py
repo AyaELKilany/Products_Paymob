@@ -31,8 +31,8 @@ def PaymentById(request,id):
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def CreateTransaction(request):
-    order_id = request.query_params.get('id')
+def CreateTransaction(request , id):
+    order_id = id
     payment = Payment.objects.get(order = order_id)
     order = Orders.objects.get(id=order_id)
     serializer = OrderSerializer(order)
