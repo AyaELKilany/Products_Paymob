@@ -4,5 +4,5 @@ from .views import AllPayments , PaymentById , CreateTransaction
 urlpatterns =[
     path('' , AllPayments),
     path('<int:id>', PaymentById),
-    path('transaction', CreateTransaction)
+    path('transaction/<int:id>', CreateTransaction)
 ] 
