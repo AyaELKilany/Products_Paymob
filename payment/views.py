@@ -54,8 +54,8 @@ def CreateTransaction(request , id):
 def callback(request):
     print(request.data)
     return Response(status.HTTP_200_OK)
-    # transaction_id = request.data['obj']['id']
-    # transaction_status = request.data['obj']['success']
+    transaction_id = request.data['obj']['id']
+    transaction_status = request.data['obj']['success']
     # payment = Payment.objects.get(order_reg_id=id)
     # if transaction_status == True:
     #     payment.status = 'done'
