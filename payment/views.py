@@ -6,7 +6,7 @@ from helper.requests import *
 from .serializer import PaymentSerializer
 from product.serializer import OrderSerializer
 from .models import Payment
-from product.models import Orders
+from product.models import Orders , Products
 
 
     
@@ -52,11 +52,11 @@ def CreateTransaction(request , id):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def callback(request):
-    print(request.data)
     transaction_id = request.data['obj']['id']
     transaction_status = request.data['obj']['success']
     order_reg_id = request.data['obj']['order']['id']
     payment = Payment.objects.get(order_reg_id=order_reg_id)
+    
     if transaction_status == True:
         payment.status = 'done'
         payment.transaction_id = transaction_id
@@ -68,29 +68,39 @@ def callback(request):
         total_price = data['order']['total_price']
         created = data['created']
         transaction_status = data['status']
-        products = data['order']['products']
+        product_ids = data['order']['products']
+        
+        products = []
+        for id in product_ids:
+            product = Products.objects.get(id=id)
+            products.append(product)
+        
         
         message = """
         Hi , Mr {:s} , I hope you are fine,
         We want to confirm that your transaction was successful
-        Bill Details:
+        Bill Details
         client_name : {:s}
         Total Price : {:s}
         created at : {:s}
         transaction status : {:s}
-        Products : {:d}
-        """.format(client_name,client_name,str(total_price),created,transaction_status , products[0])
+        """.format(client_name,client_name,str(total_price),created,transaction_status) + '\n' + '\n'.join('{}: {}'.format(*k) for k in enumerate(products))
         print(message)
-        # HandleThreads('Payment Notification',
-        #                 , 
-        #                 ['ayaelkilany735@gmail.com']).start()
+        
+        HandleThreads('Payment Notification', message , ['ayaelkilany735@gmail.com']).start()
         return Response(status.HTTP_200_OK)
+    
     else:
         payment.status = 'failed'
         payment.save()
-        # HandleThreads( 'Notification',
-        #               'This a confirmation message that your transaction has a problem and it was stopped' ,
-        #               ['ayaelkilany735@gmail.com']).start()
+        
+        HandleThreads( 'Payment Notification',
+                      """
+                      Hi , Mr {:s} , I hope you are fine,
+                      We want to tell you that your transaction was not successful
+                      """.format(client_name),
+                      ['ayaelkilany735@gmail.com']).start()
+        
         return Response(status.HTTP_400_BAD_REQUEST)
     
     
