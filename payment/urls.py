@@ -5,5 +5,5 @@ urlpatterns =[
     path('' , AllPayments),
     path('<int:id>', PaymentById),
     path('transaction/<int:id>', CreateTransaction),
-    path('callback/<int:id>',callback)
+    path('callback',callback)
 ] 
