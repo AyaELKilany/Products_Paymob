@@ -55,7 +55,8 @@ def callback(request):
     print(request.data)
     transaction_id = request.data['obj']['id']
     transaction_status = request.data['obj']['success']
-    payment = Payment.objects.get(order_reg_id=id)
+    order_reg_id = request.data['obj']['order']['id']
+    payment = Payment.objects.get(order_reg_id=order_reg_id)
     return Response(status.HTTP_200_OK)
     if transaction_status == True:
         payment.status = 'done'
