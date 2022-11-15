@@ -51,7 +51,7 @@ def CreateTransaction(request , id):
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
-def callback(request , id):
+def callback(request):
     transaction_id = request.data['obj']['id']
     transaction_status = request.data['obj']['success']
     payment = Payment.objects.get(order_reg_id=id)
