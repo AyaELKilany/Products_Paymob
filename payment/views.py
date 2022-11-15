@@ -67,7 +67,7 @@ def callback(request):
         client_name = data['order']['client_name']
         total_price = data['order']['total_price']
         created = data['created']
-        transaction_status = data['order']['status']
+        transaction_status = data['status']
         products = data['order']['products']
         
         message = """
