@@ -79,7 +79,7 @@ def callback(request):
         created at : {:s}
         transaction status : {:s}
         Products : {:d}
-        """.format(client_name,total_price,created,transaction_status , products[0])
+        """.format(client_name,client_name,str(total_price),created,transaction_status , products[0])
         print(message)
         # HandleThreads('Payment Notification',
         #                 , 
